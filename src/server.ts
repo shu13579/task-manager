@@ -6,8 +6,11 @@ import { errorHandler } from './errorHandler';
 
 export const createApp = () => {
   const app = express();
-  
-  app.use(cors());
+
+  const cors = require('cors');
+  app.use(cors({
+    origin: 'https://task-manager-frontend-raa3gis33-shu13579s-projects.vercel.app/'
+  }));
   app.use(express.json());
 
   app.get('/', (req, res) => {
