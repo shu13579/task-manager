@@ -6,7 +6,7 @@ import { errorHandler } from './errorHandler';
 
 export const createApp = () => {
   const app = express();
-  
+
   app.use(cors());
   app.use(express.json());
 
