@@ -11,6 +11,7 @@ export const createApp = () => {
   app.use(cors({
     origin: 'https://task-manager-frontend-raa3gis33-shu13579s-projects.vercel.app/'
   }));
+
   app.use(express.json());
 
   app.get('/', (req, res) => {

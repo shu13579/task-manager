@@ -13,7 +13,7 @@ describe('Task API', () => {
   it('should create a new task', async () => {
     const response = await request(app)
       .post('/tasks')
-      .send({ title: 'Test Task', description: 'This is a test task' });
+      .send({ title: 'Test Task', description: 'This is a test task', priority: 1});
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('id');
