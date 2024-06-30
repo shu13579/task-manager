@@ -9,7 +9,13 @@ export const createApp = () => {
 
   const cors = require('cors');
   app.use(cors({
-    origin: 'https://task-manager-frontend-raa3gis33-shu13579s-projects.vercel.app/'
+    origin: [
+      'https://task-manager-frontend-2wecyl510-shu13579s-projects.vercel.app',
+      'https://task-manager-frontend-shu13579s-projects.vercel.app/',
+      'https://task-manager-frontend-brown.vercel.app/'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
 
   app.use(express.json());
