@@ -11,9 +11,9 @@ export const createApp = () => {
   app.use(cors({
     origin: [
       'https://task-manager-frontend-2wecyl510-shu13579s-projects.vercel.app',
-      'https://task-manager-frontend-shu13579s-projects.vercel.app/',
-      'https://task-manager-frontend-brown.vercel.app/',
-      'https://tasquest.vercel.app/',
+      'https://task-manager-frontend-shu13579s-projects.vercel.app',
+      'https://task-manager-frontend-brown.vercel.app',
+      'https://tasquest.vercel.app',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
