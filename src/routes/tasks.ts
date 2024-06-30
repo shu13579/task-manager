@@ -8,6 +8,7 @@ const router = express.Router();
 const taskValidationRules = [
   body('title').notEmpty().withMessage('タイトルは必須です'),
   body('description').optional().isString().withMessage('説明は文字列である必要があります'),
+  body('priority').optional().isInt().withMessage('優先度は数値である必要があります'),
   body('status').optional().isIn(['pending', 'completed']).withMessage('ステータスは pending か completed である必要があります')
 ];
 
@@ -15,7 +16,7 @@ const taskValidationRules = [
 const checkValidationErrors = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new AppError('バリデーションエラー', 400);
+    return res.status(400).json({ errors: errors.array() });
   }
   next();
 };
@@ -32,14 +33,15 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 // 新しいタスクを作成
 router.post('/', taskValidationRules, checkValidationErrors, async (req: Request, res: Response, next: NextFunction) => {
-  const { title, description } = req.body;
+  const { title, description, priority } = req.body;
   try {
     const result = await db.run(
-      'INSERT INTO tasks (title, description) VALUES (?, ?)',
-      [title, description]
+      'INSERT INTO tasks (title, description, priority) VALUES (?, ?, ?)',
+      [title, description, priority]
     );
-    res.status(201).json({ id: result.lastID, title, description });
+    res.status(201).json({ id: result.lastID, title, description, priority });
   } catch (error) {
+    console.error('Error details:', error);
     next(new AppError('タスクの作成に失敗しました', 500));
   }
 });
@@ -49,11 +51,11 @@ router.put('/:id', [
   param('id').isInt().withMessage('IDは整数である必要があります'),
   ...taskValidationRules
 ], checkValidationErrors, async (req: Request, res: Response, next: NextFunction) => {
-  const { title, description, status } = req.body;
+  const { title, description, priority, status } = req.body;
   try {
     await db.run(
-      'UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ?',
-      [title, description, status, req.params.id]
+      'UPDATE tasks SET title = ?, description = ?, priority = ?, status = ? WHERE id = ?',
+      [title, description, priority, status, req.params.id]
     );
     res.json({ message: 'タスクが更新されました' });
   } catch (error) {
