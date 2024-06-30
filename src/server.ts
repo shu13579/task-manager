@@ -21,16 +21,18 @@ export const createApp = () => {
   return app;
 };
 
-const port = 3000;
+// PORT環境変数を使うように変更
+const PORT = process.env.PORT || 3000;
 
 export const startServer = async () => {
   const app = createApp();
   await initializeDatabase();
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
   });
 };
 
+// デプロイ時にはこの条件を満たさないため、startServerはここでは呼び出しません。
 if (require.main === module) {
   startServer().catch(console.error);
 }
